@@ -55,6 +55,7 @@ html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}main{display:b
     --blue: #69ddee;
     --green: #8cff9e;
     --red: #ff818f;
+    --orange: #FFC061;
     --white: #fbfbfb;
     --input-text: #a4b6e1;
     --input-placeholder: #7E8CAD;
@@ -190,4 +191,9 @@ button:active {
     width: 225px;
     height: 49px;
     margin: auto;
+    background-color: var(--orange);
+}
+
+.mainButtons button:hover{
+    box-shadow: 0 5px 9px 0 rgb(255 192 97 / 22%);
 }
