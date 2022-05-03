@@ -75,7 +75,7 @@ body{
     background-color: var(--background-L0);
     background-repeat: no-repeat;
     background-attachment: fixed;
-    
+    font-size: 20px;
     color: var(--white);
     font-family: var(--regularFont);
 }
@@ -100,4 +100,94 @@ aside{
     justify-content: center;
     justify-items: center;
     flex-direction: column;
+}
+
+.menuInfo{
+    text-align: center;
+    margin: 0.8rem;
+}
+
+.developedBy{
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 1px;
+    background-color: var(--elevation-L1);
+    position: fixed;
+    bottom: 0;
+    padding: 0.8rem 1rem;
+    width: 100%;
+}
+
+/* =====================
+   * COMPONENTS *
+===================== */
+
+/* * LOGO * */
+
+.logo{
+    width: 152px;
+    height: 152px;
+    padding: 0 !important;
+    border-radius: 19px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.16);
+    background-image: var(--logo-gradient);
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo svg {
+    height: 99.2px;
+}
+
+.logo svg path{
+    fill: var(--white);
+}
+
+/* Logo And Name */
+.appInfo{
+    padding-top: 64px;
+    text-align: center;
+}
+
+.appInfo span{
+    font-family: var(--boldFont);
+    margin-top: 11px;
+    font-size: 34px;
+    display: inline-block;
+}
+
+button {
+    border-radius: 35px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.07);
+    background-color: #2d325a;
+    color: var(--white);
+    font-family: var(--mediumFont);
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    outline: none;
+}
+
+button:hover {
+    box-shadow: 0 5px 8px 0 rgb(0 0 0 / 15%);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.mainButtons {
+    margin: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainButtons button {
+    width: 225px;
+    height: 49px;
+    margin: auto;
 }
