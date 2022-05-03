@@ -1,12 +1,17 @@
-import { useState } from 'react'
-import { MainMenu } from './pages'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Signature ,Cipher, MainMenu } from './pages'
 import './styles/main.css'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <MainMenu/>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainMenu/>} />
+        <Route path="/cipher" element={<Cipher/>} />
+        <Route path="/signature" element={<Signature/>} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

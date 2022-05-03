@@ -194,6 +194,11 @@ button:active {
     background-color: var(--orange);
 }
 
+.mainButtons a{
+    margin: auto;
+    text-decoration: none;
+}
+
 .mainButtons button:hover{
     box-shadow: 0 5px 9px 0 rgb(255 192 97 / 22%);
 }

@@ -10,7 +10,11 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 960,
     height: 600,
+    maximizable: false,
+    resizable: false,
+    autoHideMenuBar: true,
     webPreferences: {
+      nodeIntegration: true,
       preload: path.join(__dirname, '/preload.js')
     }
   })
