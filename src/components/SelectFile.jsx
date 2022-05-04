@@ -14,14 +14,13 @@ const SelectFile = (props) => {
         else
             setFileName(null)
 
-        console.log(file)
         props.onChange(file);
     }
 
 
     return (
         <div className='selectionFile'>
-            {fileName!=null?"Archivo: "+fileName:""}
+            {fileName!=null?(<><b>Archivo: &nbsp;</b>{fileName}</>):""}
             <button className={fileName!=null?"small":""} 
                     onClick={getFile}>
             {fileName==null?("Seleccionar Archivo"+buttonLabelEnding)

@@ -7,6 +7,7 @@ const isDev = require('electron-is-dev')
 // Modules to create functionality
 const JSZip = require('jszip');
 const fs = require('fs');
+const { file } = require('jszip');
 const zip = new JSZip();
 
 var mainWindow;
@@ -65,7 +66,7 @@ app.whenReady().then(() => {
     return result.response == 0;
   })
 
-  ipcMain.on("saveGeneratedKeys", async (event, objectKeys) =>{
+  ipcMain.on("saveGeneratedKeys", async (event, objectKeys) => {
     //Requesting path to save the keys
     const result = await dialog.showSaveDialog(mainWindow,{
       title: 'Guardar llaves RSA...',
@@ -86,7 +87,7 @@ app.whenReady().then(() => {
                 displaySimpleMessage("Generar Llaves RSA", "Llaves generadas exitosamente en: "+result.filePath, "info");
             });
       }catch(err){
-        displaySimpleMessage("Error: Generar Llaves RSA", "No se pudo escribir el archivo comprimido con el par de llaves", "error");
+        displaySimpleMessage("Error: Generar Llaves RSA", "No se pudo escribir el archivo comprimido con el par de llaves.", "error");
         console.error(err);
       }
     }
@@ -118,6 +119,32 @@ app.whenReady().then(() => {
     return { path:result.filePaths[0], data:dataString};  
   })
 
+  ipcMain.handle("saveTxtSignFile", async (event, objectKeys) => {
+    //Requesting path to save the new TextFile
+
+    previousFileName=objectKeys.path.split("\\");
+    previousFileName=previousFileName[previousFileName.length - 1];
+    newFileName=previousFileName.replace(".txt","") + "_SIGNED.txt"
+    newPath=objectKeys.path.replace(previousFileName,newFileName);
+
+    const result = await dialog.showSaveDialog(mainWindow,{
+      title: 'Guardar nuevo archivo firmado...',
+      filters:[{name:'Text Document Signed', extensions:['txt']}],
+      defaultPath: newPath,
+      buttonLabel: "Guardar",
+    })
+
+    if(!result.canceled){
+      try{
+        fs.writeFileSync(result.filePath, objectKeys.data)
+        displaySimpleMessage("Generar Archivo Firmado", "Archivo generado exitosamente en: "+result.filePath, "info");
+      }catch(e){
+        displaySimpleMessage("Error: Generar Archivo Firmado", "No se pudo escribir el archivo firmado.", "error");
+        console.error(err);
+      }
+    }
+  })
+  
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

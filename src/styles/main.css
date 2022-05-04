@@ -123,6 +123,14 @@ aside{
     background-color: var(--elevation-L1);
 }
 
+aside + div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
 .back {
     display: flex;
     justify-content: flex-start;
@@ -213,6 +221,7 @@ button:active {
     height: 49px;
     margin: auto;
     background-color: var(--orange);
+    box-shadow: 0 3px 7px 0 rgba(255, 192, 97, 0.2);
 }
 
 .mainButtons a{
@@ -262,4 +271,15 @@ button:active {
 }
 .selectionFile button:hover{
     box-shadow: 0 5px 9px 0 rgb(255 129 143 / 22%);
+}
+
+.buttonMake button{
+    width: 15rem;
+    box-shadow: 0 3px 7px 0 rgba(140, 255, 158, 0.2);
+    background-color: var(--green);
+    margin-top: 1.5rem;
+}
+
+.buttonMake button:hover{
+    box-shadow: 0 5px 9px 0 rgb(140 255 158 / 22%);
 }
