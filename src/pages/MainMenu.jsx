@@ -17,7 +17,6 @@ const MainMenu = () => {
             window.api.saveGeneratedKeys(objectKeys);
         }
 
-        
     }
 
     return (

@@ -19,6 +19,7 @@ const createWindow = () => {
     maximizable: false,
     resizable: false,
     autoHideMenuBar: true,
+    title: "RSA Tools",
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, '/preload.js')
@@ -68,7 +69,7 @@ app.whenReady().then(() => {
     //Requesting path to save the keys
     const result = await dialog.showSaveDialog(mainWindow,{
       title: 'Guardar llaves RSA...',
-      filters:[{name:'ZIP Files', extensions:['.zip']}],
+      filters:[{name:'ZIP Compressed Files', extensions:['zip']}],
       defaultPath: "RSA_KEYS.zip",
       buttonLabel: "Guardar",
     })

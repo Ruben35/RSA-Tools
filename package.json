@@ -1,9 +1,9 @@
 {
-  "name": "electron-react-vite-boilerplate",
+  "name": "rsa-tools",
   "private": true,
   "version": "1.0.0",
-  "author": "Ruben35",
-  "description": "A fast and optimized ⚡️ Electron-React boilerplate 📦 which uses Vite as frontend tooling 🛠️.",
+  "author": "Ruben35 | david-oaxaca",
+  "description": "",
   "main": "electron/main.js",
   "homepage": "./",
   "scripts": {
@@ -38,7 +38,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "name": "electron-react-vite-boilerplate",
+        "name": "RSA Tools",
         "asar": true
       },
       "makers": [
