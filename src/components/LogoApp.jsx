@@ -1,12 +1,12 @@
 import React from 'react';
-import LockIcon from '../assets/icons/lock.svg?component';
+import SecurityIcon from '../assets/icons/security.svg?component';
 
 
 const LogoApp = () => {
 
     return (
         <div className='logo'>
-            <LockIcon />    
+            <SecurityIcon />    
         </div>
     );
 } 

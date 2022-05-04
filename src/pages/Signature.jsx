@@ -32,7 +32,7 @@ const Signature = () => {
         }else{
             // TODO: Process of verification with textFile.data and keyFile.data
 
-            var isValid = false; // TODO: This flag is the one to check if is a valid sign.
+            var isValid = true; // TODO: This flag is the one to check if is a valid sign.
 
             var fileName = textFile.path.split("\\");
             fileName = fileName[fileName.length -1];
