@@ -2,6 +2,24 @@ import LogoApp from '../components/LogoApp'
 import { Link } from 'react-router-dom';
 
 const MainMenu = () => {
+
+    const handleGenerationKeys = async () => {
+        const startGeneration = await window.api.askGenerationKeys();
+        
+        if(startGeneration){
+            //TODO: Here is the process to generate keys
+            
+            var objectKeys = {
+                private:"HEADER---PRIVATE-KEY---FOOTER",
+                public:"HEADER---PUBLIC-KEY-FOOTER"
+            }
+
+            window.api.saveGeneratedKeys(objectKeys);
+        }
+
+        
+    }
+
     return (
         <div className="mainMenu">
             <div className='appInfo'>
@@ -14,7 +32,7 @@ const MainMenu = () => {
                 </p>
             </div>
             <div className='mainButtons'>
-                <button>
+                <button onClick={() => handleGenerationKeys()}>
                     Generar Llaves
                 </button>
                 <Link to="/cipher">
