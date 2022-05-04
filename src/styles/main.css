@@ -81,17 +81,6 @@ body{
     font-family: var(--regularFont);
 }
 
-.mainContainer{
-    display: grid;
-    grid-template-columns: auto 680px;
-    height: 100vh;
-    text-align: center;
-}
-
-aside{
-    background-color: var(--elevation-L1);
-}
-
 /* =====================
    * MAIN MENU *
 ===================== */
@@ -117,6 +106,38 @@ aside{
     bottom: 0;
     padding: 0.8rem 1rem;
     width: 100%;
+}
+
+/* =====================
+   * Signature *
+===================== */
+
+.mainContainer{
+    display: grid;
+    grid-template-columns: auto 680px;
+    height: 100vh;
+    text-align: center;
+}
+
+aside{
+    background-color: var(--elevation-L1);
+}
+
+.back {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: -23px;
+}
+
+.back div {
+    width: 2.3rem;
+    height: 2.3rem;
+    cursor: pointer;
+    margin: 0.5rem;
+}
+
+.back div svg path {
+    fill: var(--white);
 }
 
 /* =====================
@@ -201,4 +222,44 @@ button:active {
 
 .mainButtons button:hover{
     box-shadow: 0 5px 9px 0 rgb(255 192 97 / 22%);
+}
+
+.toggleButtons {
+    display: block;   
+    font-size: 18px;
+    margin-top: 75px;
+}
+
+.toggleButtons button, .buttonMake button{
+    width: 162px;
+    height: 49px;
+    margin: 0 auto 39px auto;
+}
+
+.toggleButtons .active, .buttonMake button {
+    background-color: var(--blue);
+    box-shadow: 0 3px 7px 0 rgba(105, 221, 238, 0.2);
+}
+
+.toggleButtons .active:hover, .buttonMake button:hover {
+    box-shadow: 0 5px 9px 0 rgb(105 221 238 / 22%)
+}
+
+.selectionFile{
+    display: flex;
+    align-items: center;
+}
+
+.selectionFile button{
+    padding: 0px 40px;
+    height: 41px;
+    background-color: var(--red);
+    box-shadow: 0 3px 7px 0 rgba(255, 129, 143, 0.2);
+}
+
+.selectionFile button.small{
+    margin-left: 5px;
+}
+.selectionFile button:hover{
+    box-shadow: 0 5px 9px 0 rgb(255 129 143 / 22%);
 }

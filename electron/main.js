@@ -96,6 +96,28 @@ app.whenReady().then(() => {
     displaySimpleMessage(objectDialog.title, objectDialog.message, objectDialog.type)
   })
 
+  ipcMain.handle("getFile", async (event, type) =>{
+    //Requesting File
+    var dialogOptions = {
+      title: "Selecciona archivo...",
+      properties: ['openFile']
+    }
+    if(type==='txt')
+      dialogOptions.filters=[{name:"Text Document", extensions:["txt"]}]
+    else if(type==='pem')
+      dialogOptions.filters=[{name:"Key File", extensions:["pem"]}]
+
+    const result = await dialog.showOpenDialog(mainWindow, dialogOptions)
+
+    if(result.canceled)
+      return null
+    
+    //Reading data
+    const dataString = fs.readFileSync(result.filePaths[0]).toString('utf-8');
+
+    return { path:result.filePaths[0], data:dataString};  
+  })
+
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
