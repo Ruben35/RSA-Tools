@@ -35,11 +35,18 @@ const MainMenu = () => {
                 <button onClick={() => handleGenerationKeys()}>
                     Generar Llaves
                 </button>
-                <Link to="/cipher">
-                    <button>
+                {/* <Link to="/cipher"> */}
+                    <button onClick={() => {
+                        const dialog={
+                            title:"Coming soon...",
+                            type:"info",
+                            message:"Cifrar/Descifrar en construcción...",
+                        }
+                        window.api.makeDialog(dialog);
+                    }}>
                         Cifrar/Descifrar
                     </button>
-                </Link>
+                {/* </Link> */}
                 <Link to="/signature">
                     <button>
                         Firmar/Verificar

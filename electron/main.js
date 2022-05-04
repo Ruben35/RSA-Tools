@@ -91,6 +91,10 @@ app.whenReady().then(() => {
     }
   })
 
+  ipcMain.on("makeDialog",(event, objectDialog) => {
+    displaySimpleMessage(objectDialog.title, objectDialog.message, objectDialog.type)
+  })
+
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
