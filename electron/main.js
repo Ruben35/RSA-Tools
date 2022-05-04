@@ -7,7 +7,6 @@ const isDev = require('electron-is-dev')
 // Modules to create functionality
 const JSZip = require('jszip');
 const fs = require('fs');
-const { file } = require('jszip');
 const zip = new JSZip();
 
 var mainWindow;
@@ -21,6 +20,7 @@ const createWindow = () => {
     resizable: false,
     autoHideMenuBar: true,
     title: "RSA Tools",
+    icon: __dirname + '/icons/Logo-RSA-Tools-1024x1024.png',
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, '/preload.js')
