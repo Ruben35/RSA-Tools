@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "author": "Ruben35 | david-oaxaca",
-  "description": "",
+  "description": "A GUI program that implements asymmetric cipher \"RSA\" in order to generate keys, encrypt/decrypt and sign/validate.",
   "main": "electron/main.js",
   "homepage": "./",
   "scripts": {
@@ -47,7 +47,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "electron_react_vite_boilerplate"
+            "name": "RSATools"
           }
         },
         {
