@@ -1,5 +1,6 @@
 import LogoApp from '../components/LogoApp'
 import { Link } from 'react-router-dom';
+import rsa from 'js-crypto-rsa';
 
 const MainMenu = () => {
 
@@ -9,12 +10,18 @@ const MainMenu = () => {
         if(startGeneration){
             //TODO: Here is the process to generate keys
             
-            var objectKeys = {
-                private:"HEADER---PRIVATE-KEY---FOOTER",
-                public:"HEADER---PUBLIC-KEY-FOOTER"
-            }
-
-            window.api.saveGeneratedKeys(objectKeys);
+            rsa.generateKey(1024).then( (key) => {
+                // now you get the JWK public and private keys
+                const publicKey = key.publicKey;
+                const privateKey = key.privateKey;
+                
+                var objectKeys = {
+                    private: JSON.stringify(privateKey),
+                    public: JSON.stringify(publicKey)
+                }
+    
+                window.api.saveGeneratedKeys(objectKeys);
+            })
         }
 
     }

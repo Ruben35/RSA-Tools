@@ -78,8 +78,8 @@ app.whenReady().then(() => {
     if(!result.canceled){
       //Writing keys on a .zip
       try{
-        zip.file("PRIVATE_KEY.pem",objectKeys.private);
-        zip.file("PUBLIC_KEY.pem",objectKeys.public);
+        zip.file("PRIVATE_KEY.jwk",objectKeys.private);
+        zip.file("PUBLIC_KEY.jwk",objectKeys.public);
 
         zip.generateNodeStream({ type: 'nodebuffer', streamFiles: true })
             .pipe(fs.createWriteStream(result.filePath))
@@ -105,8 +105,8 @@ app.whenReady().then(() => {
     }
     if(type==='txt')
       dialogOptions.filters=[{name:"Text Document", extensions:["txt"]}]
-    else if(type==='pem')
-      dialogOptions.filters=[{name:"Key File", extensions:["pem"]}]
+    else if(type==='jwk')
+      dialogOptions.filters=[{name:"Key File", extensions:["jwk"]}]
 
     const result = await dialog.showOpenDialog(mainWindow, dialogOptions)
 
