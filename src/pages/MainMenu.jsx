@@ -5,18 +5,9 @@ const MainMenu = () => {
 
     const handleGenerationKeys = async () => {
         const startGeneration = await window.api.askGenerationKeys();
-        
-        if(startGeneration){
-            //TODO: Here is the process to generate keys
-            
-            var objectKeys = {
-                private:"HEADER---PRIVATE-KEY---FOOTER",
-                public:"HEADER---PUBLIC-KEY-FOOTER"
-            }
 
-            window.api.saveGeneratedKeys(objectKeys);
-        }
-
+        if(startGeneration)
+            window.api.generateAndSaveKeys();
     }
 
     return (
