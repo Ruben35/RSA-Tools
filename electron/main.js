@@ -8,6 +8,8 @@ const isDev = require('electron-is-dev')
 const JSZip = require('jszip');
 const fs = require('fs');
 const zip = new JSZip();
+//
+var keypair = require('keypair');
 
 var mainWindow;
 
@@ -66,7 +68,7 @@ app.whenReady().then(() => {
     return result.response == 0;
   })
 
-  ipcMain.on("saveGeneratedKeys", async (event, objectKeys) => {
+  ipcMain.on("generateAndSaveKeys", async (event) => {
     //Requesting path to save the keys
     const result = await dialog.showSaveDialog(mainWindow,{
       title: 'Guardar llaves RSA...',
@@ -76,10 +78,13 @@ app.whenReady().then(() => {
     })
 
     if(!result.canceled){
+      //* Generate keys
+      var pair = keypair();
+      
       //Writing keys on a .zip
       try{
-        zip.file("PRIVATE_KEY.pem",objectKeys.private);
-        zip.file("PUBLIC_KEY.pem",objectKeys.public);
+        zip.file("PRIVATE_KEY.pem",pair.private);
+        zip.file("PUBLIC_KEY.pem",pair.public);
 
         zip.generateNodeStream({ type: 'nodebuffer', streamFiles: true })
             .pipe(fs.createWriteStream(result.filePath))
