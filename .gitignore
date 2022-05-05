@@ -11,7 +11,7 @@ lerna-debug.log*
 node_modules
 
 # Vite out directories and files
-dist
+build
 dist-ssr
 *.local
 
@@ -28,3 +28,6 @@ dist-ssr
 
 # Electron forge out directory
 out/
+
+# Eletron builder or Vite (default) out
+dist

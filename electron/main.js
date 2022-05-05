@@ -35,7 +35,7 @@ const createWindow = () => {
   mainWindow.loadURL(
       isDev
       ? "http://localhost:3000"
-      : `file://${path.join(__dirname, "/../dist/index.html")}`
+      : `file://${path.join(__dirname, "/../build/index.html")}`
   )
 
   // Open the DevTools.
