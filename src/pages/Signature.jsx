@@ -11,7 +11,8 @@ const Signature = () => {
     const [textFile, setTextFile] = useState(null);
     const [keyFile, setKeyFile] = useState(null);
 
-    const startSignOrVerfication = () => {
+    const startSignOrVerfication = async () => {
+        //Validating existance of textFile and KeyFile
         if(textFile == null || keyFile == null){
             window.api.makeDialog({
                 title: processType +" archivo",
@@ -21,32 +22,32 @@ const Signature = () => {
             return
         }
 
+        //Initialize of process of sign or verification
+        var allGood = false;
+
         if(processType==="Firmar"){
-            // TODO: Process of signature with textFile.data and keyFile.data
-            var objectFile = {
-                path: textFile.path,
-                data:  textFile.data //! Change with the new string content
-            }
-
-            window.api.saveTxtSignFile(objectFile)
-
+            allGood = await window.api.signAndSaveTxtFile(textFile, keyFile); // * Process of signing
         }else{
-            // TODO: Process of verification with textFile.data and keyFile.data
+            var result = await window.api.verifySignedTxtFile(textFile, keyFile); // * Process of verification
+            allGood = !result.error;
 
-            var isValid = true; // TODO: This flag is the one to check if is a valid sign.
+            if(allGood){
+                var isValid = result.verified; // Here is the result of the verification process.
 
-            var fileName = textFile.path.split("\\");
-            fileName = fileName[fileName.length -1];
-  
-            window.api.makeDialog({
-                title: "Verificación de Archivo.",
-                message: "El archivo "+fileName+" "+(isValid ? "es auntentico ya que corresponde su firma."
-                                                             :"no es autentico ya que no corresponde su firma."),
-                type: (isValid ? "info" : "error")
-            });
+                var fileName = textFile.path.split("\\");
+                fileName = fileName[fileName.length -1];
+      
+                window.api.makeDialog({
+                    title: "Verificación de Archivo.",
+                    message: "El archivo "+fileName+" "+(isValid ? "es auntentico ya que corresponde a su firma."
+                                                                 :"no es autentico ya que no corresponde a su firma."),
+                    type: (isValid ? "info" : "error")
+                });
+            }
         }
- 
-        window.location.reload(false)
+        //Refreshing if there was no error.
+        if(allGood)
+            window.location.reload(false)
     }
 
     return (

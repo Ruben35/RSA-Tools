@@ -8,8 +8,9 @@ const isDev = require('electron-is-dev')
 const JSZip = require('jszip');
 const fs = require('fs');
 const zip = new JSZip();
-//
+// Modules of crypto
 var keypair = require('keypair');
+var forge = require('node-forge');
 
 var mainWindow;
 
@@ -68,6 +69,7 @@ app.whenReady().then(() => {
     return result.response == 0;
   })
 
+  // * FUNCTION FOR GENERATE KEY PAIR
   ipcMain.on("generateAndSaveKeys", async (event) => {
     //Requesting path to save the keys
     const result = await dialog.showSaveDialog(mainWindow,{
@@ -120,17 +122,16 @@ app.whenReady().then(() => {
     
     //Reading data
     const dataString = fs.readFileSync(result.filePaths[0]).toString('utf-8');
-
     return { path:result.filePaths[0], data:dataString};  
   })
 
-  ipcMain.handle("saveTxtSignFile", async (event, objectKeys) => {
-    //Requesting path to save the new TextFile
-
-    previousFileName=objectKeys.path.split("\\");
+  // * FUNCTION FOR SIGN AND SAVE A TXT FILE
+  ipcMain.handle("signAndSaveTxtFile", async (event, objectFile, keyFile) => {
+    //Requesting path to save the new signed TextFile
+    previousFileName=objectFile.path.split("\\");
     previousFileName=previousFileName[previousFileName.length - 1];
     newFileName=previousFileName.replace(".txt","") + "_SIGNED.txt"
-    newPath=objectKeys.path.replace(previousFileName,newFileName);
+    newPath=objectFile.path.replace(previousFileName,newFileName);
 
     const result = await dialog.showSaveDialog(mainWindow,{
       title: 'Guardar nuevo archivo firmado...',
@@ -140,16 +141,52 @@ app.whenReady().then(() => {
     })
 
     if(!result.canceled){
-      try{
-        fs.writeFileSync(result.filePath, objectKeys.data)
-        displaySimpleMessage("Generar Archivo Firmado", "Archivo generado exitosamente en: "+result.filePath, "info");
+      // * Process of signaling the file
+      try{ 
+        var dataStringWithSign = signStringFile( objectFile.data, keyFile.data )
+
+        try{
+          fs.writeFileSync(result.filePath, dataStringWithSign)
+          displaySimpleMessage("Generar Archivo Firmado", "Archivo firmado exitosamente en: "+result.filePath, "info");
+          return true;
+        }catch(f){
+          displaySimpleMessage("Error: Generar Archivo Firmado", "No se pudo escribir el archivo firmado.", "error");
+          console.error(f);
+        }
       }catch(e){
-        displaySimpleMessage("Error: Generar Archivo Firmado", "No se pudo escribir el archivo firmado.", "error");
-        console.error(err);
+        displaySimpleMessage("Error: Generar Archivo Firmado", "La llave introducida no es la privada o no está en un correcto formato (.pem).", "error");
+        console.error(e)
       }
     }
   })
   
+  ipcMain.handle("verifySignedTxtFile", (event, objectFile, keyFile) => {
+    var result = {
+      error: true,
+      verified: false,
+    }
+
+    //Validating signed file.
+    var dataFileArray = objectFile.data.split("\n---BEGIN DIGITAL SIGNATURE---\n");
+    if(dataFileArray.length != 2){
+      displaySimpleMessage("Error: Verificación de Firma", "Texto sin firma o con formato de firma incorrecto.", "error");
+      return result;
+    }
+
+    var originalFile = dataFileArray[0];
+    var signature = dataFileArray[1];
+    try{
+      // * Verifying DigitalSignature
+      result.verified=verifyStringFile(originalFile, signature, keyFile.data);
+      result.error=false;
+    }catch(e){
+      displaySimpleMessage("Error: Verificación de Firma", "La llave introducida no es la pública o no está en un correcto formato (.pem).", "error");
+      console.error(e)
+    }
+    
+    return result;
+  })
+
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -165,7 +202,8 @@ if (require("electron-squirrel-startup")) {
 } 
 
 // In this file you can include the rest of your app's specific main process
-// code. Tu también puedes ponerlos en archivos separados y requerirlos aquí.
+// code.
+
 const displaySimpleMessage = (title, message, type) => {
   dialog.showMessageBox(mainWindow, {
     title: title,
@@ -174,4 +212,37 @@ const displaySimpleMessage = (title, message, type) => {
     noLink: true,
     buttons: ['Okey']
   })
+}
+
+const signStringFile = ( fileDataString , privateKeyPEMString ) => {
+  var privateKey = forge.pki.privateKeyFromPem(privateKeyPEMString);
+
+  //Hash of fileDataString
+  var md = forge.md.sha1.create();
+      md.update(fileDataString, 'utf8');
+  //Signature
+  var signature = privateKey.sign(md);
+  //Encoding to Base64 for better read on txt file
+  var signatureBase64 = forge.util.encode64(signature);
+  
+  return fileDataString+"\n---BEGIN DIGITAL SIGNATURE---\n"+signatureBase64;
+}
+
+const verifyStringFile = ( fileDataString, signatureBase64, publicKeyPEMString ) => {
+  var publicKey = forge.pki.publicKeyFromPem(publicKeyPEMString);
+
+  //Hash of fileDataString
+  var digest = forge.md.sha1.create();
+  digest.update(fileDataString, 'utf8');
+  //Decoding signature of Base64
+  signature= forge.util.decode64(signatureBase64);
+  //Verifying signature
+  var verified = false;
+  try{
+    verified = publicKey.verify(digest.digest().bytes(), signature);
+  }catch(e){
+    //The publicKey doesn't match with the signature.
+  }
+
+  return verified;
 }

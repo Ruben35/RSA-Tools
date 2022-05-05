@@ -7,7 +7,8 @@ const WINDOW_API = {
     askGenerationKeys: () => ipcRenderer.invoke("askGenerationKeys"),
     generateAndSaveKeys: () => ipcRenderer.send("generateAndSaveKeys"),
     getFile: (type) => ipcRenderer.invoke("getFile",type),
-    saveTxtSignFile: (objectFile) => ipcRenderer.invoke("saveTxtSignFile",objectFile) 
+    signAndSaveTxtFile: (objectFile, keyFile) => ipcRenderer.invoke("signAndSaveTxtFile", objectFile, keyFile),
+    verifySignedTxtFile: (objectFile, keyFile) => ipcRenderer.invoke("verifySignedTxtFile", objectFile, keyFile),
 }
 
 contextBridge.exposeInMainWorld('api', WINDOW_API);
